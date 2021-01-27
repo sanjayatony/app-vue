@@ -23,8 +23,6 @@
         <a href="#" class="text-purple-600 hover:text-purple-500">
           Forgot your password?
         </a>
-        or back to
-        <router-link to="/" class="text-purple-500 hover:text-purple-700">home</router-link>
       </div>
       <div>
         <button
@@ -59,8 +57,9 @@ export default {
             email: this.email,
             password: this.password,
           })
-          .then((response) => {
-            console.log(response);
+          .then(() => {
+            localStorage.setItem("isLoggedIn", "true");
+            this.$router.push({ name: "Dashboard" });
           })
           .catch((error) => {
             console.log(error.response.data);
