@@ -40,23 +40,19 @@ export default {
     };
   },
   methods: {
-    forgotPassword() {},
-    login() {
-      axios.get("/sanctum/csrf-cookie").then(() => {
-        axios
-          .post("/login", {
-            email: this.email,
-            password: this.password,
-          })
-          .then(() => {
-            localStorage.setItem("isLoggedIn", "true");
-            this.$router.push({ name: "Dashboard" });
-          })
-          .catch((error) => {
-            const key = Object.keys(error.response.data.errors)[0];
-            this.errorMessage = error.response.data.errors[key][0];
-          });
-      });
+    forgotPassword() {
+      //axios.get("/sanctum/csrf-cookie").then(() => {
+      axios
+        .post("/forgot-password", {
+          email: this.email,
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      //});
     },
   },
 };
