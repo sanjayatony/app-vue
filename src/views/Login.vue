@@ -1,6 +1,9 @@
 <template>
   <div class="home">
     <h1 class="text-center text-3xl font-bold mb-4">Admin Page</h1>
+    <div v-if="errorMessage" class="text-red-500 mb-4 text-sm">
+      {{ errorMessage }}
+    </div>
     <form action="#" method="POST" @submit.prevent="login">
       <div class="rounded-md shadow-sm -space-y-px">
         <input
@@ -8,7 +11,7 @@
           v-model="email"
           required
           class="appearance-none relative rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10"
-          placeholder="Username"
+          placeholder="Email"
         />
         <input
           type="password"
@@ -20,9 +23,9 @@
         />
       </div>
       <div class="text-sm py-2">
-        <a href="#" class="text-purple-600 hover:text-purple-500">
+        <router-link to="/forgot-password" class="text-purple-600 hover:text-purple-500">
           Forgot your password?
-        </a>
+        </router-link>
       </div>
       <div>
         <button
@@ -47,6 +50,7 @@ export default {
     return {
       email: "",
       password: "",
+      errorMessage: "",
     };
   },
   methods: {
@@ -62,7 +66,8 @@ export default {
             this.$router.push({ name: "Dashboard" });
           })
           .catch((error) => {
-            console.log(error.response.data);
+            const key = Object.keys(error.response.data.errors)[0];
+            this.errorMessage = error.response.data.errors[key][0];
           });
       });
     },
